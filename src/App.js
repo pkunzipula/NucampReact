@@ -1,8 +1,5 @@
 import React, { Component } from "react";
-import { Navbar, NavbarBrand, Nav } from "reactstrap";
-import { CAMPSITES } from "./shared/campsites";
 import { BrowserRouter } from "react-router-dom";
-import Directory from "./components/DirectoryComponent";
 import "./App.css";
 import Main from "./components/MainComponent";
 
