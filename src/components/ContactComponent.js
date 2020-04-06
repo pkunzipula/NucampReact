@@ -7,8 +7,15 @@ import {
   Row,
   Col,
 } from "reactstrap";
-import { Control, LocalForm } from "react-redux-form";
+import { Control, LocalForm, Errors } from "react-redux-form";
 import { Link } from "react-router-dom";
+
+const required = (val) => val && val.length;
+const maxLength = (len) => (val) => !val || val.length <= len;
+const minLength = (len) => (val) => val && val.length >= len;
+const isNumber = (val) => !isNaN(+val);
+const validEmail = (val) =>
+  /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(val);
 
 class Contact extends Component {
   constructor(props) {
@@ -101,6 +108,22 @@ class Contact extends Component {
                     name="firstName"
                     placeholder="First Name"
                     className="form-control"
+                    validators={{
+                      required,
+                      minLength: minLength(2),
+                      maxLength: maxLength(15),
+                    }}
+                  />
+                  <Errors
+                    className="text-danger"
+                    model=".firstName"
+                    show="touched"
+                    component="div"
+                    messages={{
+                      required: "Required",
+                      minLength: "First name must be at least 2 characters",
+                      maxLength: "FIrst name must be 15 characters or less",
+                    }}
                   />
                 </Col>
               </Row>
@@ -115,6 +138,22 @@ class Contact extends Component {
                     name="lastName"
                     placeholder="Last Name"
                     className="form-control"
+                    validators={{
+                      required,
+                      minLength: minLength(2),
+                      maxLength: maxLength(15),
+                    }}
+                  />
+                  <Errors
+                    className="text-danger"
+                    model=".lastName"
+                    show="touched"
+                    component="div"
+                    messages={{
+                      required: "Required",
+                      minLength: "Last name must be at least 2 characters",
+                      maxLength: "Last name must be 15 characters or less",
+                    }}
                   />
                 </Col>
               </Row>
@@ -129,6 +168,24 @@ class Contact extends Component {
                     name="phoneNum"
                     placeholder="Phone number"
                     className="form-control"
+                    validators={{
+                      required,
+                      minLength: minLength(10),
+                      maxLength: maxLength(15),
+                      isNumber,
+                    }}
+                  />
+                  <Errors
+                    className="text-danger"
+                    model=".phoneNum"
+                    show="touched"
+                    component="div"
+                    messages={{
+                      required: "Required",
+                      minLength: "Phone number must be at least 10 characters",
+                      maxLength: "Phone number must be 15 characters or less",
+                      isNumber: "Phone number must be a number, Eensteen.",
+                    }}
                   />
                 </Col>
               </Row>
@@ -143,6 +200,17 @@ class Contact extends Component {
                     name="email"
                     placeholder="Email"
                     className="form-control"
+                    validators={{ required, validEmail }}
+                  />
+                  <Errors
+                    className="text-danger"
+                    model=".email"
+                    show="touched"
+                    component="div"
+                    messages={{
+                      required: "Required",
+                      validEmail: "Invalid email address",
+                    }}
                   />
                 </Col>
               </Row>
